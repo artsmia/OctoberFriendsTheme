@@ -3,20 +3,22 @@
     and (max-device-width : 1024px) {
 
 
-    body {
+    body.login {
       overflow: hidden;
     }
 
+    #status { display: none; opacity: 0;}
+
     /**** Modal Dialog ****/
-    .modal-dialog {
-      margin-top: 13%;
+    .login .modal-dialog {
+      margin-top: 21%;
     }
     #card-scan.popup {
       height: 340px;
     }
 
     .preview {
-      height: 380px !important;
+      height: 450px !important;
     }
 }
 

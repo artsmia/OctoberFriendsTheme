@@ -8,29 +8,45 @@
         wrap: false
     });
 
-    checkButtons($('#carousel-register .item.active'));
-
     $('#carousel-register').on('slid.bs.carousel', function(e) {
         checkButtons($('#carousel-register .item.active'));
-
     });
 
     $('.registration-next').click(function(e) {
+        $("html, body").animate({
+            scrollTop:0
+        },"slow");
+        validateForm(e);	
+    });
+
+    // Disable continue button on click
+    $('.registration-next').click(function() {
+        $(this).attr('disabled', 'disabled');
+    });
+
+    $('.register').click(function() {
+        $('#status').fadeIn();
+        $('#preloader').fadeIn('slow');
+    });
+
+    $('form').on('keyup', function() {
+        $('.registration-next').removeAttr('disabled');
+    });
+
+    function validateForm(e) {
         var idx = $('.item.active').index();
         $('#register').parsley()
-        	.asyncValidate('block' + idx)
+            .asyncValidate('block' + idx)
             .done(function() {
-            	// Group validation was successful
-            	$('#carousel-register').carousel('next');
-             });
-        
-        //Stop button of triggeting next slice in the carousel
-        e.preventDefault();
-        e.stopPropagation();
-	
-    })
+                // Group validation was successful
+                $('#carousel-register').carousel('next');
+            }); 
+        $(this).attr('disabled', 'disabled');
+        $('input').blur();
+    }
 
     function checkButtons(obj) {
+        $('.registration-next').removeAttr('disabled');
 
         var idx = $('.item.active').index();
 
@@ -40,7 +56,7 @@
             $('.registration-prev').hide();
         }
 
-        if (idx == 6) {
+        if (idx == 5) {
             $('.registration-next').hide();
             $('.register').show();
         } else {
@@ -55,6 +71,7 @@
         selected: function( event, ui ) {
             var fileName = $(ui.selected).find('img').attr('src');
             $('#avatar').val(fileName);
+            $('.registration-next').removeAttr('disabled');
         }
     });
 
